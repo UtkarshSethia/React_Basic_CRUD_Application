@@ -7,7 +7,7 @@ import {  useNavigate } from 'react-router-dom';
 function App() {
   //https://mocki.io/v1/e46f2d52-86fa-4e8a-896c-575a11ddbd64
 const history=useNavigate();
-  const data=[
+  /*const data=[
     {
     "name":"Raj",
     "age":25,
@@ -74,7 +74,7 @@ const history=useNavigate();
   }
   
   
-  ]
+  ]*/
 
   const[name,setName]=useState("")
   const[location,setLocation]=useState("")
@@ -82,11 +82,20 @@ const history=useNavigate();
   const[age,setAge]=useState("")
   const[role,setRole]=useState("")
   const[deleteEmp,setIndex]=useState("")
-  
-  const[dataALL,setDataALL]=useState(data)
+  const[dataALL,setDataALL]=useState([])
+
+
 
 useEffect(()=>{
-
+fetch(`https://mocki.io/v1/e46f2d52-86fa-4e8a-896c-575a11ddbd64`).then(
+  (res)=>{
+   return res.json()
+  }
+).then(
+  (data)=>{setDataALL(data)}
+).catch((err)=>{
+  console.log(err)
+})
 },[])
 
 const formHandler=(e)=>{
