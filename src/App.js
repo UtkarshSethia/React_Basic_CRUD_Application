@@ -3,6 +3,13 @@ import BasicAccordion from './Acc';
 import './App.css';
 import { useEffect, useState } from 'react';
 import {  useNavigate } from 'react-router-dom';
+import { TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import Navbar from './Navbar';
+import Box from '@mui/material/Box';
 
 function App() {
   //https://mocki.io/v1/e46f2d52-86fa-4e8a-896c-575a11ddbd64
@@ -98,6 +105,7 @@ fetch(`https://mocki.io/v1/e46f2d52-86fa-4e8a-896c-575a11ddbd64`).then(
 })
 },[])
 
+
 const formHandler=(e)=>{
   e.preventDefault();
  if(deleteEmp!==""){
@@ -163,18 +171,23 @@ setIndex("")
 
   return (
     <div className="App">
-      <h2>CRUD Application</h2>
-     
-     <form onSubmit={formHandler}>
-      <input required value={name} onChange={(e)=>{setName(e.target.value)}} placeholder='name' type='text' />
-      <input required value={age} onChange={(e)=>{setAge(e.target.value)}} placeholder='age' type='number' />
-      <input required value={location} onChange={(e)=>{setLocation(e.target.value)}} placeholder='location' type='text' />
-      <input required value={role} onChange={(e)=>{setRole(e.target.value)}} placeholder='role' type='text' />
-      <input required value={joined} onChange={(e)=>{setJoined(e.target.value)}} placeholder='joined' type='number' />
-      <input  type='submit' />
-     </form>
+      <Navbar data={dataALL} setDataALL={setDataALL}/>
+      <Box component="div" sx={{ p: 2, border: '1px dashed grey',m:4,borderRadius:"10px" }}>
+     <form className='form_' onSubmit={formHandler}>
+     <TextField className='inp_box'  required value={name} onChange={(e)=>{setName(e.target.value)}} placeholder='name' type='text' id="outlined-basic" label="Name" variant="outlined" />
+     <TextField  className='inp_box' required value={age} onChange={(e)=>{setAge(e.target.value)}} placeholder='age' type='number' id="outlined-basic" label="Age" variant="outlined" />
+     <TextField className='inp_box'  required value={location} onChange={(e)=>{setLocation(e.target.value)}} placeholder='' type='text'  id="outlined-basic" label="Location" variant="outlined" />
+     <TextField  className='inp_box' required value={role} onChange={(e)=>{setRole(e.target.value)}} placeholder='' type='text' id="outlined-basic" label="Role" variant="outlined" />
+     <TextField className='inp_box'  required value={joined} onChange={(e)=>{setJoined(e.target.value)}} placeholder='' type='number' id="outlined-basic" label="Joined" variant="outlined" />
+     <br/>
+     <Button style={{marginTop:"10px"}} size='large' type='submit' variant="contained" endIcon={<SendIcon />}>
+  Send
+</Button>
+</form>
+</Box>
       <div className='card_cont'> 
       {dataALL.map((item,index)=>{
+     
         if(item!==undefined){
         return(
           <>
@@ -182,7 +195,9 @@ setIndex("")
         <span className='name'>{item.name}</span>
         <div className='info'>
         <div>Age- {item.age} , Location- {item.location}</div>
-        <div className='but_cont'><button onClick={()=>{editHandler(index); setIndex(index);}}  className='edi_button'>Edit</button><button onClick={()=>{deleteEmployee(); setIndex(index);}} className='del_button'>Delete</button></div>
+        <div className='but_cont'><Button sx={{m:1}} onClick={()=>{editHandler(index); setIndex(index);}} size="medium" startIcon={<EditIcon style={{paddingLeft:"10px"}}/>}  variant="outlined" color="success"></Button> <Button sx={{m:1}} variant="outlined" size="medium"color='error'  onClick={()=>{deleteEmployee(); setIndex(index);}} startIcon={<DeleteIcon style={{paddingLeft:"7px"}} />}>
+  
+</Button></div>
         </div>
         <BasicAccordion details={item.details} />
       </div>

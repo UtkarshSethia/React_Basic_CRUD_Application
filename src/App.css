@@ -1,19 +1,33 @@
-.App {
+body {
   text-align: center;
+  background-color: #fcfcfc;
 }
 .card{
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   text-align: left;
   margin: 10px;
   padding: 15px;
+  background-color: white;
 }
 .card:hover{
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
   cursor: pointer;
 }
+.card_cont{
+  margin: 20px;
+}
+.inp_box{
+  margin: 5px !important;
+  background-color: rgb(255, 255, 255);
+
+}
+.form_{
+  margin-top: 20px;
+}
 .but_cont{
   position: relative;
   bottom: 30px;
+  display: flex;
 }
 .name{
   color:rgb(84, 84, 84);
@@ -38,11 +52,13 @@
   border-radius: 5px;
   cursor: pointer;
   margin: 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .edi_button{
   padding: 8px;
   background-color: rgb(4, 29, 173);
   color: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border: none;
   outline: none;
   border-radius: 5px;
