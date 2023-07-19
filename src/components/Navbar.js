@@ -6,9 +6,10 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Link } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { MenuItem } from "@mui/material";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -51,45 +52,38 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Navbar({ data, setDataALL }) {
+export default function Navbar({ SearchList }) {
   const [input, setInput] = useState("");
 
-  var whole_data=data;
-  const searchInputHandler = () => {
-    
-    let filteredInput = data.filter((item) => {
-    
-            return item.name.toLowerCase().includes(input);
-      
-    });
-   //setDataALL(filteredInput);
-
-/*else if(input==""){
-setDataALL(whole_data)
-console.log("abc",input)
-}*/
-   
-  };
+  useEffect(() => {
+    SearchList(input);
+  }, [input]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="small"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            EMPLOYEE LIST
-          </IconButton>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          ></Typography>
+            sx={{ textDecoration: "none" }}
+          >
+            <Link className="link" to="/">
+              Employee
+            </Link>
+          </Typography>
+
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: "flex", marginLeft: "8px" }}
+          >
+            <Link className="link" to="/posts">
+              Posts
+            </Link>
+          </Typography>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -97,7 +91,6 @@ console.log("abc",input)
             <StyledInputBase
               value={input}
               onChange={(e) => {
-                searchInputHandler();
                 setInput(e.target.value);
               }}
               placeholder="Search…"

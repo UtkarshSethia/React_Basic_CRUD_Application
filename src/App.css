@@ -2,12 +2,55 @@ body {
   text-align: center;
   background-color: #fcfcfc;
 }
+
+.link{
+  text-decoration: none;
+  color: white;
+  margin: 2px;
+}
+.post_cont{
+  text-align: left;
+ background-color: #f8f8f8;
+ cursor: pointer;
+}
+.title{
+  display: flex;
+  justify-content: space-between;
+}
+.text_area{
+  width: 320px;
+  height: 100px;
+  border-radius: 10px;
+}
+.text_area::placeholder{
+  font-size: 18px;
+  position: relative;
+  top: 40%;
+  text-align: center;
+  color: grey;
+  
+}
+.inp_box_posts{
+  background-color: white !important;
+  border-radius: 10px;
+}
+.post{
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  padding: 8px;
+}
+.body{
+  font-size: 15px;
+  color: #282c34;
+}
+
+
 .card{
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   text-align: left;
   margin: 10px;
   padding: 15px;
   background-color: white;
+  border-radius: 5px;
 }
 .card:hover{
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
@@ -19,10 +62,17 @@ body {
 .inp_box{
   margin: 5px !important;
   background-color: rgb(255, 255, 255);
+  width: 200px;
 
+}
+.age_loc{
+  font-size: 14px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
 }
 .form_{
   margin-top: 20px;
+ 
 }
 .but_cont{
   position: relative;
@@ -100,3 +150,21 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/*const [apiData, setApiData] = useState("");
+
+  useEffect(() => {
+    fetch(`https://mocki.io/v1/e46f2d52-86fa-4e8a-896c-575a11ddbd64`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setApiData(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  console.log(apiData);
+        */
