@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -19,7 +19,7 @@ export default function () {
   const [id, setId] = useState("");
   console.log(id);
   const [searchlist, setSearchList] = useState(""); //for getting navbar input data
-  const scrollBottom = useRef();
+
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/posts`)
       .then((res) => res.json())
@@ -135,9 +135,6 @@ export default function () {
             <br />
             <br />
             <Button
-              onClick={() => {
-                scrollBottom.current.scrollIntoView({ behavior: "smooth" });
-              }}
               style={{ marginTop: "10px" }}
               size="large"
               type="submit"
@@ -201,7 +198,6 @@ export default function () {
               </div>
             );
           })}
-      <div ref={scrollBottom}></div>
     </Box>
   );
 }
