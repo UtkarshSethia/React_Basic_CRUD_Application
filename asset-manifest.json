@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/React_Basic_CRUD_Application/Employee/static/css/main.f2c096cd.css",
-    "main.js": "/React_Basic_CRUD_Application/Employee/static/js/main.b341213d.js",
-    "index.html": "/React_Basic_CRUD_Application/Employee/index.html",
-    "main.f2c096cd.css.map": "/React_Basic_CRUD_Application/Employee/static/css/main.f2c096cd.css.map",
-    "main.b341213d.js.map": "/React_Basic_CRUD_Application/Employee/static/js/main.b341213d.js.map"
+    "main.css": "/React_Basic_CRUD_Application/static/css/main.f2c096cd.css",
+    "main.js": "/React_Basic_CRUD_Application/static/js/main.b341213d.js",
+    "index.html": "/React_Basic_CRUD_Application/index.html",
+    "main.f2c096cd.css.map": "/React_Basic_CRUD_Application/static/css/main.f2c096cd.css.map",
+    "main.b341213d.js.map": "/React_Basic_CRUD_Application/static/js/main.b341213d.js.map"
   },
   "entrypoints": [
     "static/css/main.f2c096cd.css",
