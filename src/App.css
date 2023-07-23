@@ -9,9 +9,11 @@ body {
   margin: 2px;
 }
 .post_cont{
+  border-radius: 10px;
   text-align: left;
  background-color: #f8f8f8;
  cursor: pointer;
+ padding: 10px;
 }
 .title{
   display: flex;
@@ -23,7 +25,7 @@ body {
   border-radius: 10px;
 }
 .text_area::placeholder{
-  font-size: 18px;
+  font-size: 15px;
   position: relative;
   top: 40%;
   text-align: center;
@@ -35,7 +37,7 @@ body {
   border-radius: 10px;
 }
 .post{
-  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   padding: 8px;
 }
 .body{
@@ -57,7 +59,7 @@ body {
   cursor: pointer;
 }
 .card_cont{
-  margin: 20px;
+  margin: 30px;
 }
 .inp_box{
   margin: 5px !important;

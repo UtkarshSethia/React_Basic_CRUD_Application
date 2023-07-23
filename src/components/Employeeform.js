@@ -1,6 +1,6 @@
 import React from "react";
 import "../App.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
@@ -8,10 +8,9 @@ import Box from "@mui/material/Box";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MenuItem from "@mui/material/MenuItem";
-import { filteredEmployeeData } from "../store/Filter";
 import { useDispatch, useSelector } from "react-redux";
-import { updatedEmployeeData } from "../store/Store";
-import EmployeeList from "../EmployeeList";
+import { updatedEmployeeData, renderInitialData } from "../store/Store";
+import EmployeeList from "./EmployeeList";
 
 export default function Employeeform() {
   const dispatch = useDispatch();
@@ -24,7 +23,7 @@ export default function Employeeform() {
       joined: "",
     },
   });
-
+  const scrollBottom = useRef();
   const ClearEmployeeForm = () => {
     setEmployeeData({
       name: "",
@@ -38,13 +37,14 @@ export default function Employeeform() {
   };
 
   const employeeList = useSelector((state) => state.employeeList.value);
-  console.log(employeeList);
 
   const formHandler = (e) => {
     e.preventDefault();
     dispatch(updatedEmployeeData([...employeeList, employeeData]));
-    //updateEmployeeData(employeeData);
+    dispatch(renderInitialData([...employeeList, employeeData]));
+
     toast("Employee Data Added Successfully", { theme: "light" });
+
     ClearEmployeeForm();
   };
 
@@ -138,6 +138,9 @@ export default function Employeeform() {
 
         <br />
         <Button
+          onClick={() => {
+            scrollBottom.current.scrollIntoView({ behavior: "smooth" });
+          }}
           style={{ marginTop: "10px" }}
           size="large"
           type="submit"
@@ -148,6 +151,7 @@ export default function Employeeform() {
         </Button>
       </form>
       <EmployeeList />
+      <div ref={scrollBottom}></div>
     </Box>
   );
 }

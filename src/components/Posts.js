@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box } from "@mui/material";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { ToastContainer, toast } from "react-toastify";
+import { Context } from "../App";
 import "../App.css";
 
 export default function () {
@@ -14,13 +16,16 @@ export default function () {
     title: "",
     body: "",
   });
-
   const [id, setId] = useState("");
-
+  console.log(id);
+  const [searchlist, setSearchList] = useState(""); //for getting navbar input data
+  const scrollBottom = useRef();
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/posts`)
       .then((res) => res.json())
-      .then((data) => setData(data))
+      .then((data) => {
+        setData(data);
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -28,8 +33,8 @@ export default function () {
     fetch("https://jsonplaceholder.typicode.com/posts", {
       method: "POST",
       body: JSON.stringify({
-        title: "This is a Title",
-        body: "This is a body",
+        title: postData.title,
+        body: postData.body,
         id: data.length,
       }),
       headers: {
@@ -37,16 +42,38 @@ export default function () {
       },
     })
       .then((response) => response.json())
-      .then((newData) => setData([...data, newData]));
+      .then((newData) => {
+        setData([...data, newData]);
+        // dispatch(updatePostList([...data, newData]));
+        // dispatch(renderInitialPostList([...data, newData]));
+      });
   };
 
-  const addDataHandler = (e) => {
-    e.preventDefault();
-    getData();
+  const clearPostForm = () => {
     setPostData({
       title: "",
       body: "",
     });
+  };
+  const addDataHandler = (e) => {
+    e.preventDefault();
+    if (id === "") {
+      getData();
+      clearPostForm();
+      setId("");
+      toast("Post Data Added Successfully", { theme: "light" });
+    } else {
+      console.log(id);
+      let editData = data;
+      editData[id].title = postData.title;
+      editData[id].body = postData.body;
+
+      setData(editData);
+
+      setId("");
+      clearPostForm();
+      toast(" Data Edited  Successfully", { theme: "light" });
+    }
   };
 
   const deletePostHandler = (postId) => {
@@ -59,15 +86,20 @@ export default function () {
         })
       )
     );
+    console.log(data);
+    setId("");
+    clearPostForm();
+    toast(" Data Deleted Successfully", { theme: "light" });
   };
 
   return (
     <Box>
+      <ToastContainer position="top-center" autoClose={1500} />
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Box
           component="div"
           sx={{
-            p: 4,
+            padding: "40px",
             border: "1px dashed black",
             m: 4,
             borderRadius: "10px",
@@ -83,10 +115,10 @@ export default function () {
               onChange={(e) => {
                 setPostData({ ...postData, title: e.target.value });
               }}
-              placeholder="title"
+              placeholder="Header*"
               type="text"
               id="outlined-basic"
-              label="Title"
+              label="Header"
               variant="outlined"
             />
             <br />
@@ -94,7 +126,7 @@ export default function () {
 
             <textarea
               className="text_area"
-              placeholder="Body*"
+              placeholder="Description*"
               value={postData.body}
               onChange={(e) => {
                 setPostData({ ...postData, body: e.target.value });
@@ -103,60 +135,73 @@ export default function () {
             <br />
             <br />
             <Button
+              onClick={() => {
+                scrollBottom.current.scrollIntoView({ behavior: "smooth" });
+              }}
               style={{ marginTop: "10px" }}
               size="large"
               type="submit"
               variant="contained"
               endIcon={<SendIcon />}
             >
-              {id !== "" ? "Update" : "Send"}
+              {id !== "" ? "Update" : "Create"}
             </Button>
           </form>
         </Box>
       </div>
+      <Context.Consumer>
+        {(res) => setSearchList(res.searchList)}
+      </Context.Consumer>
       <br />
-      Post Data
+      Post Data{" "}
       {data.length > 0 &&
-        data.map((post) => {
-          return (
-            <div className="card_cont post_cont post">
-              <div className="title">
-                <h4>Title: {post.title.toUpperCase()}</h4>
-                <div>
-                  <Button
-                    sx={{ m: 1 }}
-                    onClick={() => {
-                      setPostData({
-                        title: data[post.id - 1].title,
-                        body: data[post.id - 1].body,
-                      });
-                      setId(post.id);
-                    }}
-                    size="medium"
-                    startIcon={<EditIcon style={{ paddingLeft: "10px" }} />}
-                    variant="outlined"
-                    color="success"
-                  ></Button>{" "}
-                  <Button
-                    sx={{ m: 1 }}
-                    variant="outlined"
-                    size="medium"
-                    color="error"
-                    onClick={() => {
-                      deletePostHandler(post.id);
-                    }}
-                    startIcon={<DeleteIcon style={{ paddingLeft: "7px" }} />}
-                  ></Button>
+        data
+          .filter((item) => {
+            return searchlist.toLowerCase() === ""
+              ? item
+              : item.title.toLowerCase().includes(searchlist.toLowerCase());
+          })
+          .map((post, index) => {
+            return (
+              <div className="card_cont post_cont post">
+                <div className="title">
+                  <h4> {post.title.toUpperCase()}</h4>
+                  <div>
+                    <Button
+                      sx={{ m: 1 }}
+                      onClick={() => {
+                        setPostData({
+                          title: data[index].title,
+                          body: data[index].body,
+                        });
+                        setId(index);
+                      }}
+                      size="medium"
+                      startIcon={<EditIcon style={{ paddingLeft: "10px" }} />}
+                      variant="outlined"
+                      color="success"
+                    ></Button>{" "}
+                    <Button
+                      sx={{ m: 1 }}
+                      variant="outlined"
+                      size="medium"
+                      color="error"
+                      onClick={() => {
+                        deletePostHandler(post.id);
+                      }}
+                      startIcon={<DeleteIcon style={{ paddingLeft: "7px" }} />}
+                    ></Button>
+                  </div>
                 </div>
-              </div>
 
-              <div className="body">
-                <h4>Body: {post.body}</h4>
+                <div className="body">
+                  <p> {post.body}</p>
+                </div>
+                <div className="but_cont"></div>
               </div>
-              <div className="but_cont"></div>
-            </div>
-          );
-        })}
+            );
+          })}
+      <div ref={scrollBottom}></div>
     </Box>
   );
 }
